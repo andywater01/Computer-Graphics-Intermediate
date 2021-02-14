@@ -152,7 +152,7 @@ int main() {
 						temp->SetIntensity(intensity);
 					}
 				}
-
+				
 				if (activeEffect == 2)
 				{
 					ImGui::Text("Active Effect: Color Correct Effect");
@@ -171,12 +171,12 @@ int main() {
 					ImGui::Text("Active Effect: Bloom Effect");
 
 					BloomEffect* temp = (BloomEffect*)effects[activeEffect];
-					/*float intensity = temp->GetIntensity();
+					float intensity = temp->GetThreshold();
 
-					if (ImGui::SliderFloat("Intensity", &intensity, 0.0f, 1.0f))
+					if (ImGui::SliderFloat("Intensity", &intensity, 1.0f, 0.0f))
 					{
-						temp->SetIntensity(intensity);
-					}*/
+						temp->SetThreshold(intensity);
+					}
 				}
 					
 			}

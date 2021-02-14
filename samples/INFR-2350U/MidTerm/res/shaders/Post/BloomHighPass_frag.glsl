@@ -1,16 +1,25 @@
 #version 420
-layout(location = 0) out vec4 FragColor;
-layout(location = 1) out vec4 BrightColor;
+
+layout(binding = 0) uniform sampler2D s_screenTex; //Source image
+uniform float uThreshold;
+
+out vec4 FragColor;
 
 
+layout(location = 0) in vec2 inUV;
 
 void main()
 {
-    FragColor = vec4(lighting, 1.0);
-    // check whether fragment output is higher than threshold, if so output as brightness color
-    float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    if (brightness > 1.0)
-        BrightColor = vec4(FragColor.rgb, 1.0);
+    vec4 colour = texture(s_screenTex, inUV);
+
+    float luminance = (colour.r + colour.g + colour.b) / 3.0;
+
+    if (luminance > uThreshold)
+    {
+        FragColor = colour;
+    }
     else
-        BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
+    {
+        FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    }
 }

@@ -29,7 +29,7 @@ void BloomEffect::Init(unsigned width, unsigned height)
 	index++;
 	_shaders.push_back(Shader::Create());
 	_shaders[index]->LoadShaderPartFromFile("shaders/passthrough_vert.glsl", GL_VERTEX_SHADER);
-	_shaders[index]->LoadShaderPartFromFile("shaders/Post/Bloom_frag.glsl", GL_FRAGMENT_SHADER);
+	_shaders[index]->LoadShaderPartFromFile("shaders/Post/BloomHighPass_frag.glsl", GL_FRAGMENT_SHADER);
 	_shaders[index]->Link();
 	index++;
 	_shaders.push_back(Shader::Create());
@@ -67,7 +67,7 @@ void BloomEffect::ApplyEffect(PostEffect* buffer)
 
 	//Performs high pass on the first render target
 	BindShader(1);
-	_shaders[1]->SendUniform("uThreshold", _threshold);
+	_shaders[1]->SetUniform("uThreshold", _threshold);
 
 	BindColorAsTexture(0, 0, 0);
 
@@ -83,7 +83,7 @@ void BloomEffect::ApplyEffect(PostEffect* buffer)
 	{
 		//Horizontal pass
 		BindShader(2);
-		_shaders[2]->SendUniform("uPixelSize", _pixelSize.x);
+		_shaders[2]->SetUniform("uPixelSize", _pixelSize.x);
 
 		BindColorAsTexture(1, 0, 0);
 
@@ -95,7 +95,7 @@ void BloomEffect::ApplyEffect(PostEffect* buffer)
 
 		//Vertical pass
 		BindShader(3);
-		_shaders[3]->SendUniform("uPixelSize", _pixelSize.y);
+		_shaders[3]->SetUniform("uPixelSize", _pixelSize.y);
 
 		BindColorAsTexture(2, 0, 0);
 
